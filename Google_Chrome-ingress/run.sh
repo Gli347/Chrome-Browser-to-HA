@@ -26,7 +26,7 @@ DISPLAY=:0 google-chrome \
   --disable-gpu \
   --disable-software-rasterizer \
   "https://google.com" &
+  
 # Keep container alive
-
 tail -f /dev/null
 
