@@ -4,6 +4,9 @@ set -e
 # Lockfile, Delete previous startup lock files 
 rm -f /tmp/.X0-lock
 
+#Add Dbus files
+mkdir -p /run/dbus
+
 #Optionally launch dbus if you really want the system bus:
 dbus-daemon --system --fork
 
