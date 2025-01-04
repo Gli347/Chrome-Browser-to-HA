@@ -1,21 +1,22 @@
 #!/usr/bin/env bash
 set -e
 
-# Start X server
+# Start your X server, window manager, etc.
 Xvfb :0 -screen 0 1280x800x24 &
 sleep 2
-
-# Start Xfce
 startxfce4 &
 
-# x11vnc
+# Start x11vnc
 x11vnc -display :0 -nopw -forever -bg
 
-# Make sure noVNC is on the SAME port as ingress_port
+# Ensure noVNC has a default index:
+ln -sf /usr/share/novnc/vnc_auto.html /usr/share/novnc/index.html
+
+# Run noVNC on 8099 (must match your add-on config if using Ingress)
 websockify --web=/usr/share/novnc/ 8099 localhost:5900 &
 
-# Launch Chromium
-DISPLAY=:0 chromium-browser --no-sandbox --disable-dev-shm-usage &
+# Start Chromium
+DISPLAY=:0 chromium-browser --no-sandbox --disable-dev-shm-usage "https://google.com" &
 
 # Keep container alive
 while true; do
