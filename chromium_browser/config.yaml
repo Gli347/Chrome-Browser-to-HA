@@ -1,7 +1,7 @@
-name: "Chromium Browser to HA"
-slug: "chromium-browser-to-ha"
-version: "1.1.0"
-description: "Provides a full Chromium browser environment via noVNC in Home Assistant"
+name: "Chromium Browser"
+slug: "chromium_browser_ingress"
+version: "1.0.0"
+description: "Chromium browser environment via noVNC in Home Assistant"
 
 arch:
   - amd64
@@ -9,12 +9,20 @@ arch:
   - armv7
   - aarch64
 
-# Instead of 'image:', use 'build_from:' for each architecture
-build_from:
-  amd64: "ghcr.io/home-assistant/amd64-base:3.18"
-  armhf: "ghcr.io/home-assistant/armhf-base:3.18"
-  armv7: "ghcr.io/home-assistant/armv7-base:3.18"
-  aarch64: "ghcr.io/home-assistant/aarch64-base:3.18"
+# ------------------------
+# INGRESS CONFIG
+ingress: true
+ingress_port: 0        # 0 means Supervisor picks a random internal port
+panel_title: "Chromium"
+panel_icon: "mdi:web"
+# ------------------------
+
+# If you also want to optionally expose a direct port for local access:
+ports:
+  8080/tcp: 8080
+
+# Docker image or build config
+image: "docker.io/youruser/chromiumbrowser:latest"
 
 startup: application
 boot: manual
