@@ -1,7 +1,7 @@
 name: "Chromium Browser (Ingress)"
-slug: "chromium-browser"
-version: "1.2.0"
-description: "Chromium via noVNC with Ingress"
+slug: "chromium_browser_ingress"
+version: "1.2.1"
+description: "Chromium via noVNC in HA with Ingress"
 
 arch:
   - amd64
@@ -9,13 +9,16 @@ arch:
   - armv7
   - aarch64
 
-# Ingress recommended
+# Enable Ingress and pick a stable internal port
 ingress: true
-ingress_port: 0
+ingress_port: 8099
+
 panel_title: "Chromium"
 panel_icon: "mdi:web"
 
-# Remove 'image:' and specify base images for each arch
+# No 'ports:' block here
+
+# Docker build or image
 build_from:
   amd64: "ghcr.io/home-assistant/amd64-base:3.18"
   armhf: "ghcr.io/home-assistant/armhf-base:3.18"
@@ -34,6 +37,11 @@ schema:
   vnc_password: str
 
 options:
+  resolution: "1280x800"
+  kiosk: false
+  start_url: "https://google.com"
+  vnc_password: ""
+
   resolution: "1280x800"
   kiosk: false
   start_url: "https://google.com"
