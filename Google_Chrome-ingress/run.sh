@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 set -e
+
 # Lockfile, Delete previous startup lock files 
 rm -f /tmp/.X0-lock
+
 # Start a virtual X server (headless)
 Xvfb :0 -screen 0 1280x800x24 &
 sleep 2
