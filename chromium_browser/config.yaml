@@ -1,0 +1,17 @@
+name: "Chromium Browser to HA"
+version: "1.0.0"
+slug: "chromium_browser_to_ha"
+description: "Provides a full Chromium browser environment via noVNC in Home Assistant"
+arch:
+  - amd64
+  - armhf
+  - armv7
+  - aarch64
+ports:
+  8080/tcp: 8080
+image: local/chromium_browser_to_ha:latest
+privileged: true
+startup: application
+boot: manual
+auto_uart: false
+host_network: false
