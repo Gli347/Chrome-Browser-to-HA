@@ -1,19 +1,21 @@
 #!/usr/bin/env bash
 set -e
 
-DISPLAY=:0
-Xvfb $DISPLAY -screen 0 1280x800x24 &
+# Start X server
+Xvfb :0 -screen 0 1280x800x24 &
 sleep 2
+
+# Start Xfce
 startxfce4 &
 
-# x11vnc (no password by default, could add pass)
-x11vnc -display $DISPLAY -nopw -forever -bg
+# x11vnc
+x11vnc -display :0 -nopw -forever -bg
 
-# noVNC on port 8080 (container-side)
-websockify --web=/usr/share/novnc/ 8080 localhost:5900 &
+# Make sure noVNC is on the SAME port as ingress_port
+websockify --web=/usr/share/novnc/ 8099 localhost:5900 &
 
-# Start Chromium
-DISPLAY=$DISPLAY chromium-browser --no-sandbox --disable-dev-shm-usage "$start_url" &
+# Launch Chromium
+DISPLAY=:0 chromium-browser --no-sandbox --disable-dev-shm-usage &
 
 # Keep container alive
 while true; do
