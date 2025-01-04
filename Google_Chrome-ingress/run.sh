@@ -1,41 +1,45 @@
 #!/usr/bin/env bash
 set -e
 
-# Lockfile, Delete previous startup lock files 
+# Fjern gammel låsefil og sett DISPLAY
 rm -f /tmp/.X0-lock
+export DISPLAY=:0
 
-#Add Dbus files
+# Opprett nødvendige mapper og start D-Bus
 mkdir -p /run/dbus
-
-#Optionally launch dbus if you really want the system bus:
 dbus-daemon --system --fork
 
-# Start a virtual X server (headless)
+# Generer machine-id hvis mangler
+if [ ! -s /etc/machine-id ]; then
+    dbus-uuidgen > /etc/machine-id
+fi
+
+# Sett XDG_RUNTIME_DIR
+export XDG_RUNTIME_DIR=/tmp/xdg
+mkdir -p $XDG_RUNTIME_DIR
+chmod 700 $XDG_RUNTIME_DIR
+
+# Start Xvfb
 Xvfb :0 -screen 0 1280x800x24 &
 sleep 2
-#Alternatively use "startxfc4 &"
-###Don't "use Xvfb" and "startxfce4 &"###
-#startxfce4 &
 
-# Start Xfce (this calls /usr/bin/X via xinit under the hood)
+# Start xfce4-session
 xfce4-session &
 
 # Start x11vnc
 x11vnc -display :0 -nopw -forever -bg
 
-# Start noVNC on port 8099 (example)
+# Start noVNC
 websockify --web=/usr/share/novnc/ 8099 localhost:5900 &
 
-# Launch Google Chrome or Firefox
-#DISPLAY=:0 firefox & 
-# Launch Chrome with GPU disabled
-DISPLAY=:0 google-chrome \
-  --no-sandbox \
-  --disable-dev-shm-usage \
-  --disable-gpu \
-  --disable-software-rasterizer \
-  "https://google.com" &
-  
-# Keep container alive
-tail -f /dev/null
+# Start Google Chrome
+google-chrome \
+    --no-sandbox \
+    --disable-gpu \
+    --disable-software-rasterizer \
+    --disable-dev-shm-usage \
+    --start-maximized \
+    "$START_URL" &
 
+# Hold containeren i live
+tail -f /dev/null
