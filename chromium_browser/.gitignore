@@ -1,6 +1,0 @@
-# .gitignore
-*.log
-*.pid
-*.lock
-*.swp
-root/.vnc/passwd
