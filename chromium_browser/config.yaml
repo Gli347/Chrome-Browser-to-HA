@@ -1,7 +1,7 @@
 name: "Chromium Browser (Ingress)"
-slug: "chromium_browser_ingress"
-version: "1.1.0"
-description: "Chromium browser environment via noVNC, displayed in HA sidebar with Ingress"
+slug: "chromium-browser"
+version: "1.2.0"
+description: "Chromium via noVNC with Ingress"
 
 arch:
   - amd64
@@ -9,25 +9,23 @@ arch:
   - armv7
   - aarch64
 
-# Enable Ingress
+# Ingress recommended
 ingress: true
-
-# Let Supervisor pick an available port automatically:
 ingress_port: 0
-
-# (Optional) Provide a title/icon for the sidebar.
 panel_title: "Chromium"
 panel_icon: "mdi:web"
 
-# No 'ports:' here, because Ingress doesn't expose anything on the host
-# If you had 'ports:', remove them for a pure Ingress approach.
+# Remove 'image:' and specify base images for each arch
+build_from:
+  amd64: "ghcr.io/home-assistant/amd64-base:3.18"
+  armhf: "ghcr.io/home-assistant/armhf-base:3.18"
+  armv7: "ghcr.io/home-assistant/armv7-base:3.18"
+  aarch64: "ghcr.io/home-assistant/aarch64-base:3.18"
 
-# Docker image or build info
-image: "docker.io/gli347/chromiumbrowser:latest"
 startup: application
 boot: manual
-uart: false
 full_access: true
+uart: false
 
 schema:
   resolution: str
