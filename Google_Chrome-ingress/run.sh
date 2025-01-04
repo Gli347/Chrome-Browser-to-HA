@@ -19,9 +19,13 @@ websockify --web=/usr/share/novnc/ 8099 localhost:5900 &
 
 # Launch Google Chrome or Firefox
 #DISPLAY=:0 firefox & 
-# or
-DISPLAY=:0 google-chrome --no-sandbox --disable-dev-shm-usage &
-
+# Launch Chrome with GPU disabled
+DISPLAY=:0 google-chrome \
+  --no-sandbox \
+  --disable-dev-shm-usage \
+  --disable-gpu \
+  --disable-software-rasterizer \
+  "https://google.com" &
 # Keep container alive
 tail -f /dev/null
 
