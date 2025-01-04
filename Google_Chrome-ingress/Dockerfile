@@ -1,26 +1,31 @@
 FROM ubuntu:22.04
 
-# 1. Install base packages needed for Xfce, VNC, noVNC, etc.
-#    Also install wget, gnupg2, and ca-certificates (needed to add Google keys/repo).
+# 1. Install base packages for Xfce, X server, VNC, noVNC, etc.
 RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y \
     wget \
     gnupg2 \
     ca-certificates \
+    curl \
+    supervisor \
     xfce4 \
     xfce4-terminal \
-    novnc \
-    websockify \
-    supervisor \
     x11vnc \
     xvfb \
     wmctrl \
-    curl \
     xinit \
+    novnc \
+    websockify \
+    # Additional X server + D-Bus packages:
+    xserver-xorg-core \
+    xserver-xorg-input-all \
+    xserver-xorg-video-all \
+    x11-xserver-utils \
+    dbus-x11 \
     --no-install-recommends && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# 2. Add Google’s official Linux signing key and repo, then install Google Chrome
+# 2. Add Google’s official Linux signing key and repo, then install Google Chrome (non-Snap)
 RUN wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add - && \
     echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" \
          >> /etc/apt/sources.list.d/google-chrome.list && \
