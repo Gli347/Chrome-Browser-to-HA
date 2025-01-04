@@ -1,8 +1,8 @@
-# Chromium-Browser-to-HA
+# Google_Chrome-Browser-to-HA
 
-[![Add Repository to HA](https://my.home-assistant.io/badges/supervisor_add_addon_repository.svg)](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https://github.com/Gli347/addon-Chromium-Browser-to-HA)
+[![Add Repository to HA](https://my.home-assistant.io/badges/supervisor_add_addon_repository.svg)](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https://github.com/Gli347/Chrome-Browser-to-HA)
 
-This Home Assistant add-on provides a minimal Xfce desktop environment and runs the Chromium browser, accessible through noVNC in your browser. This allows you to have a “full” graphical browser window directly inside Home Assistant.
+This Home Assistant add-on provides a minimal Xfce desktop environment and runs the Google Chrome browser, accessible through noVNC in your browser. This allows you to have a “full” graphical browser window directly inside Home Assistant.
 
 ## Features
 
