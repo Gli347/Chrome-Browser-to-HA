@@ -1,5 +1,5 @@
 name: "Chromium Browser to HA"
-slug: "chromium_browser_to_ha"
+slug: "chromium-browser-to-ha"
 version: "1.1.0"
 description: "Provides a full Chromium browser environment via noVNC in Home Assistant"
 
@@ -9,34 +9,26 @@ arch:
   - armv7
   - aarch64
 
-# Map container port 8080 -> Host port 8080
 ports:
   8080/tcp: 8080
 
-# Use a valid Docker image name (no underscores)
-image: "local/chromium-browser:latest"
+# IMPORTANT: Use a valid format for 'image'
+image: "localhost/chromiumbrowser:latest"
 
-# Instead of privileged: true, use full_access OR privileged: [...]
 full_access: true
 
-# How/when the add-on starts
 startup: application
 boot: manual
-
-# Replaces auto_uart
 uart: false
 
-# New dictionary-based schema
 schema:
   resolution: str
   kiosk: bool
   start_url: str
   vnc_password: str
 
-# Default values for each key in schema
 options:
   resolution: "1280x800"
   kiosk: false
   start_url: "https://google.com"
   vnc_password: ""
-
