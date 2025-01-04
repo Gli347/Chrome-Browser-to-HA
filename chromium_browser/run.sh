@@ -1,33 +1,44 @@
 #!/usr/bin/env bash
 set -e
 
-# Variables
+# Les verdier fra Home Assistant:
+RESOLUTION="${resolution:-1280x800}"
+KIOSK_MODE="${kiosk:-false}"
+START_URL="${start_url:-https://google.com}"
+VNC_PASSWD="${vnc_password:-}"
+
 DISPLAY_NUM=:0
 
-# Start virtual X server in the background
-Xvfb $DISPLAY_NUM -screen 0 1280x800x24 &
+# Start virtuell skjerm
+Xvfb $DISPLAY_NUM -screen 0 ${RESOLUTION}x24 &
 
-# Wait a bit for Xvfb to start
 sleep 2
 
-# Start the desktop environment (Xfce)
+# Start Xfce
 startxfce4 &
 
-# Start x11vnc (no password by default)
-# To set a password, create it with:
-#   x11vnc -storepasswd yourpassword /root/.vnc/passwd
-# then run:
-#   x11vnc -display $DISPLAY_NUM -rfbauth /root/.vnc/passwd -forever -bg
-x11vnc -display $DISPLAY_NUM -nopw -forever -bg
+# Sett opp x11vnc:
+if [ -n "$VNC_PASSWD" ]; then
+  # Bruk passord om definert
+  x11vnc -display $DISPLAY_NUM -rfbauth /root/.vnc/passwd -forever -bg
+else
+  # Ikke bruk passord
+  x11vnc -display $DISPLAY_NUM -nopw -forever -bg
+fi
 
-# Start noVNC on port 8080
+# Start noVNC
 websockify --web=/usr/share/novnc/ 8080 localhost:5900 &
-echo "noVNC is running on port 8080"
 
-# Start Chromium browser (adjust options as needed)
-DISPLAY=$DISPLAY_NUM chromium-browser --no-sandbox --disable-dev-shm-usage &
+# Bygg argumenter for kiosk
+CHROMIUM_ARGS="--no-sandbox --disable-dev-shm-usage"
+if [ "$KIOSK_MODE" = "true" ]; then
+  CHROMIUM_ARGS="$CHROMIUM_ARGS --kiosk"
+fi
 
-# Keep container alive
+# Start Chromium:
+DISPLAY=$DISPLAY_NUM chromium-browser $CHROMIUM_ARGS "$START_URL" &
+
+# Hold containeren i gang
 while true; do
   sleep 3600
 done
