@@ -15,3 +15,23 @@ startup: application
 boot: manual
 auto_uart: false
 host_network: false
+
+# Valgfri konfigurasjon for å la brukeren justere parametere:
+schema:
+  - name: resolution
+    description: "Screen resolution (WxH)"
+    type: string
+    default: "1280x800"
+  - name: kiosk
+    description: "Enable kiosk mode?"
+    type: boolean
+    default: false
+  - name: start_url
+    description: "Which URL should Chromium open on startup?"
+    type: string
+    default: "https://google.com"
+  - name: vnc_password
+    description: "Optional VNC password (leave empty for no password)"
+    type: string
+    default: ""
+
