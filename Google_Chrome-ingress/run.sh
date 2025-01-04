@@ -9,7 +9,7 @@ sleep 2
 # dbus-daemon --system --fork
 
 # Start Xfce (this calls /usr/bin/X via xinit under the hood)
-startxfce4 &
+#startxfce4 &
 
 # Start x11vnc
 x11vnc -display :0 -nopw -forever -bg
