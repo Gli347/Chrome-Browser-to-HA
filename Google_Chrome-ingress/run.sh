@@ -6,7 +6,7 @@ Xvfb :0 -screen 0 1280x800x24 &
 sleep 2
 
 # Optionally launch dbus if you really want the system bus:
-dbus-daemon --system --fork
+# dbus-daemon --system --fork
 
 # Start Xfce (this calls /usr/bin/X via xinit under the hood)
 startxfce4 &
