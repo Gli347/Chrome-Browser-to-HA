@@ -4,16 +4,18 @@ set -e
 # Lockfile, Delete previous startup lock files 
 rm -f /tmp/.X0-lock
 
+#Optionally launch dbus if you really want the system bus:
+dbus-daemon --system --fork
+
 # Start a virtual X server (headless)
-#Xvfb :0 -screen 0 1280x800x24 &
-#sleep 2
-#xfce4-session &
+Xvfb :0 -screen 0 1280x800x24 &
+sleep 2
+#Alternatively use "startxfc4 &"
 ###Don't "use Xvfb" and "startxfce4 &"###
-# Optionally launch dbus if you really want the system bus:
-# dbus-daemon --system --fork
+#startxfce4 &
 
 # Start Xfce (this calls /usr/bin/X via xinit under the hood)
-startxfce4 &
+xfce4-session &
 
 # Start x11vnc
 x11vnc -display :0 -nopw -forever -bg
